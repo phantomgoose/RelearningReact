@@ -10,6 +10,8 @@ const initialState = {
   test: {
     message: '',
   },
+  users: [],
+  isFetching: false,
 };
 
 const store = configureStore(initialState);

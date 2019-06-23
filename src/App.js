@@ -3,6 +3,8 @@ import './App.css';
 import * as actions from './actions';
 import { connect } from 'react-redux';
 
+const User = ({ name }) => <div>{name}</div>;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,12 @@ class App extends React.Component {
         {this.props.message}
         <input type="text" onChange={this.handleTextChange} value={this.state.text} />
         <button onClick={() => this.props.onNewMessage(this.state.text)}>Press me</button>
+        <button onClick={() => this.props.onFetchFakeUsers()}>Very special button</button>
+        {this.props.isFetching ?
+          <span>Loading...</span>
+          : <ol>
+            {this.props.users.map(u => <User key={u.id} name={u.name}/>)}
+          </ol>}
       </div>
     );
   }
@@ -30,10 +38,13 @@ class App extends React.Component {
 
 const mapStateToProps = state => ({
   message: state.test.message,
+  users: state.users,
+  isFetching: state.isFetching,
 });
 
 const mapDispatchToProps = dispatch => ({
   onNewMessage: text => dispatch(actions.test(text)),
+  onFetchFakeUsers: () => dispatch(actions.fetchFakeUsers()),
 });
 
 App = connect(
