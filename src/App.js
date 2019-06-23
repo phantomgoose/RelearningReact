@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as actions from './actions';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: '',
+    };
+  }
+
+  handleTextChange = e => {
+    this.setState({
+      text: e.target.value,
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        {this.props.message}
+        <input type="text" onChange={this.handleTextChange} value={this.state.text} />
+        <button onClick={() => this.props.onNewMessage(this.state.text)}>Press me</button>
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = state => ({
+  message: state.test.message,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onNewMessage: text => dispatch(actions.test(text)),
+});
+
+App = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 
 export default App;
