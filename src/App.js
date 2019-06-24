@@ -11,9 +11,6 @@ const App = () => {
   
   const { message, users, isFetching } = useSelector(s => s);
 
-  // const message = useSelector(s => s.message);
-  // const users = useSelector(s => s.users);
-  // const isFetching = useSelector(s => s.isFetching);
   const handleNewMessage = text => dispatch(actions.test(text));
   const fetchFakeUsers = () => dispatch(actions.fetchFakeUsers());
 
