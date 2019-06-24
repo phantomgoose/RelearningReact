@@ -7,9 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import configureStore from './configureStore';
 
 const initialState = {
-  test: {
-    message: '',
-  },
+  message: '',
   users: [],
   isFetching: false,
 };

@@ -1,56 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import * as actions from './actions';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const User = ({ name }) => <div>{name}</div>;
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: '',
-    };
-  }
+const App = () => {
+  const [text, updateText] = useState('');
+  const dispatch = useDispatch();
+  
+  const { message, users, isFetching } = useSelector(s => s);
 
-  handleTextChange = e => {
-    this.setState({
-      text: e.target.value,
-    });
-  }
+  // const message = useSelector(s => s.message);
+  // const users = useSelector(s => s.users);
+  // const isFetching = useSelector(s => s.isFetching);
+  const handleNewMessage = text => dispatch(actions.test(text));
+  const fetchFakeUsers = () => dispatch(actions.fetchFakeUsers());
 
-  render() {
-    return (
-      <div className="App">
-        <p>{this.props.message}</p>
-        <input type="text" onChange={this.handleTextChange} value={this.state.text} />
-        <button onClick={() => this.props.handleNewMessage(this.state.text)}>Submit text</button>
-        <br></br>
-        <button onClick={() => this.props.fetchFakeUsers()}>Fetch fake users</button>
-        {this.props.isFetching ?
-          <p>Loading...</p>
-          : <ol>
-            {this.props.users.map(u => <User key={u.id} name={u.name}/>)}
-          </ol>}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  message: state.test.message,
-  users: state.users,
-  isFetching: state.isFetching,
-});
-
-const mapDispatchToProps = dispatch => ({
-  handleNewMessage: text => dispatch(actions.test(text)),
-  fetchFakeUsers: () => dispatch(actions.fetchFakeUsers()),
-});
-
-App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+  return (
+    <div className="App">
+      <p>{message}</p>
+      <input type="text" onChange={e => updateText(e.target.value)} value={text} />
+      <button onClick={() => handleNewMessage(text)}>Submit text</button>
+      <br />
+      <button onClick={() => fetchFakeUsers()}>Fetch fake users</button>
+      {isFetching ? (
+        <p>Loading...</p>
+      ) : (
+        <ol>
+          {users.map(u => (
+            <User key={u.id} name={u.name} />
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+};
 
 export default App;

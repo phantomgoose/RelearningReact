@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import test from './test';
+import message from './message';
 import * as userActions from './users';
 
 export default combineReducers({
-  test,
+  message,
   users: userActions.users,
   isFetching: userActions.isFetching,
 });
