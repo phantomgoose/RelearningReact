@@ -22,12 +22,13 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {this.props.message}
+        <p>{this.props.message}</p>
         <input type="text" onChange={this.handleTextChange} value={this.state.text} />
-        <button onClick={() => this.props.onNewMessage(this.state.text)}>Press me</button>
-        <button onClick={() => this.props.onFetchFakeUsers()}>Very special button</button>
+        <button onClick={() => this.props.handleNewMessage(this.state.text)}>Submit text</button>
+        <br></br>
+        <button onClick={() => this.props.fetchFakeUsers()}>Fetch fake users</button>
         {this.props.isFetching ?
-          <span>Loading...</span>
+          <p>Loading...</p>
           : <ol>
             {this.props.users.map(u => <User key={u.id} name={u.name}/>)}
           </ol>}
@@ -43,8 +44,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onNewMessage: text => dispatch(actions.test(text)),
-  onFetchFakeUsers: () => dispatch(actions.fetchFakeUsers()),
+  handleNewMessage: text => dispatch(actions.test(text)),
+  fetchFakeUsers: () => dispatch(actions.fetchFakeUsers()),
 });
 
 App = connect(
