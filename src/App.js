@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import * as actions from './actions';
 import { useSelector, useDispatch } from 'react-redux';
+import Nato from './components/nato';
 
 const User = ({ name }) => <div>{name}</div>;
 
@@ -30,6 +31,7 @@ const App = () => {
           ))}
         </ol>
       )}
+      <Nato />
     </div>
   );
 };
