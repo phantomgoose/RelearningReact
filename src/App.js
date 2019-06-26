@@ -3,6 +3,7 @@ import './App.css';
 import * as actions from './actions';
 import { useSelector, useDispatch } from 'react-redux';
 import Nato from './components/nato';
+import Profile from './components/profile';
 
 const User = ({ name }) => <div>{name}</div>;
 
@@ -17,6 +18,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <Profile />
       <p>{message}</p>
       <input type="text" onChange={e => updateText(e.target.value)} value={text} />
       <button onClick={() => handleNewMessage(text)}>Submit text</button>

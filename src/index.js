@@ -1,24 +1,49 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
 import './index.css';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './configureStore';
+import { GITHUB_PERSONAL_ACCESS_TOKEN } from './constants/secrets';
 
-const initialState = {
+const GITHUB_BASE_URL = 'https://api.github.com/graphql';
+
+const httpLink = new HttpLink({
+  uri: GITHUB_BASE_URL,
+  headers: {
+    authorization: `Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}`,
+  },
+});
+
+const apolloCache = new InMemoryCache();
+
+const apolloClient = new ApolloClient({
+  link: httpLink,
+  cache: apolloCache,
+});
+
+const initialReduxState = {
   message: '',
   users: [],
   isFetching: false,
 };
 
-const store = configureStore(initialState);
+const store = configureStore(initialReduxState);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
+  <ApolloProvider client={apolloClient}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ApolloProvider>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
